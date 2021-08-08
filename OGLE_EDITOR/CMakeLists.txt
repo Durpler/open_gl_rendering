@@ -1,9 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-include(automate-vcpkg.cmake)
-
-vcpkg_bootstrap()
-vcpkg_install_packages(glfw3 glad)
-project(OGLE)
+project(OGLE_EDITOR)
 
 
 if( COMPILER_SUPPORTS_CXX11 )
@@ -18,14 +14,6 @@ else()
     # MSVC, On by default (if available)
 endif()
 
-include_directories(OGLE/src)
-
-find_package(glfw3 CONFIG REQUIRED)
-find_package(glad CONFIG REQUIRED)
-
 add_compile_definitions(GLFW_DLL)
-
-add_subdirectory(OGLE)
-add_subdirectory(OGLE_EDITOR)
-
-add_dependencies(OGLE_EDITOR OGLE_LIBRARY)
+add_executable(OGLE_EDITOR src/main.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE OGLE_LIBRARY glfw glad::glad)
